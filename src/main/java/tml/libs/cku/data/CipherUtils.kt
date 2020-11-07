@@ -3,8 +3,10 @@
 package tml.libs.cku.data
 
 import tml.libs.cku.io.StaticLogger
+import java.nio.charset.Charset
 import java.security.MessageDigest
 import java.security.NoSuchAlgorithmException
+import java.util.*
 
 
 class CipherUtils {
@@ -30,6 +32,11 @@ class CipherUtils {
                 StaticLogger.E(TAG, "md5", e)
             }
             return ""
+        }
+
+        fun decodeBase64(base64: String, charset : String = "UTF-8") : String {
+            val data: ByteArray = Base64.getDecoder().decode(base64)
+            return String(data, Charset.forName(charset))
         }
     }
 }

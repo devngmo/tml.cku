@@ -1,6 +1,6 @@
 package tml.libs.cku.storages
 
-import tml.libs.cku.TaskResultListener
+import tml.libs.cku.event.TaskResultListener
 
 @Suppress("unused")
 interface DocumentStorageInterface  : FileStorageInterface {

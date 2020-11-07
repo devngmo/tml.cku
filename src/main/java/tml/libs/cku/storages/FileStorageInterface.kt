@@ -1,6 +1,6 @@
 package tml.libs.cku.storages
 
-import tml.libs.cku.TaskResultListener
+import tml.libs.cku.event.TaskResultListener
 import java.io.InputStream
 
 @Suppress("unused")
@@ -13,7 +13,7 @@ interface FileStorageInterface {
     /**
      *
      */
-    fun add(fileInfo: String, data: InputStream, callback: TaskResultListener<String ,String>)
+    fun add(fileInfo: String, data: InputStream, callback: TaskResultListener<String, String>)
     /**
      * Update file by id
      */
