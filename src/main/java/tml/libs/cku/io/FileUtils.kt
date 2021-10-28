@@ -5,14 +5,11 @@ package tml.libs.cku.io
 import java.io.*
 import java.nio.channels.FileChannel
 import java.nio.charset.Charset
-import java.nio.charset.StandardCharsets
-import java.util.zip.ZipEntry
-import java.util.zip.ZipInputStream
 
 class FileUtils {
     companion object {
         private const val TAG = "FileUtils"
-        fun readAllText(file: File, lineBreak: String? = "\n", charset: Charset? = StandardCharsets.UTF_8): String {
+        fun readAllText(file: File, lineBreak: String? = "\n", charset: Charset? = null): String {
             val text = StringBuilder()
             try {
                 val reader = if (charset == null)
@@ -280,65 +277,6 @@ class FileUtils {
                 StaticLogger.E(TAG, "saveBinaryFile: ${file.absolutePath}", e)
             }
             return false
-        }
-
-        @Throws(IOException::class)
-        fun unzip(zipFile: File, targetDirectory: File, skipTopFolder: Boolean = false) {
-            val skipInfo = when (skipTopFolder) {
-                true -> "Skip create top folder"
-                false -> "create top folder"
-            }
-            StaticLogger.I("FileUtils", "unzip: ${zipFile.absolutePath} to folder $targetDirectory $skipInfo")
-
-            val zis = ZipInputStream(
-                BufferedInputStream(FileInputStream(zipFile))
-            )
-            var topFolderName :String? = null
-            try {
-                var ze: ZipEntry? = null
-                var count: Int
-                val buffer = ByteArray(8192)
-                while (zis.nextEntry.also { ze = it } != null) {
-                    if (ze == null) break
-                    var entryRelativePath = ze!!.name
-                    if (skipTopFolder) {
-                        if (topFolderName == null) {
-                            topFolderName = ze!!.name
-                            continue
-                        } else
-                            entryRelativePath =
-                                entryRelativePath.substring(topFolderName!!.length)
-                    }
-                    val file = File(targetDirectory, entryRelativePath)
-                    StaticLogger.I("FileUtils", "entry: $entryRelativePath")
-                    val dir = if (ze!!.isDirectory) file else file.parentFile
-                    StaticLogger.I("FileUtils", "entry:    dir: ${dir.absolutePath}")
-                    if (!dir.isDirectory && !dir.mkdirs()) throw FileNotFoundException(
-                        "Failed to ensure directory: " +
-                                dir.absolutePath
-                    )
-                    if (!ze!!.isDirectory) {
-                        val fout = FileOutputStream(file)
-                        try {
-                            while (zis.read(buffer).also { count = it } != -1)
-                                fout.write(buffer, 0, count)
-                        } finally {
-                            fout.close()
-                        }
-                        /* if time should be restored as well
-                        long time = ze.getTime();
-                        if (time > 0)
-                            file.setLastModified(time);
-                        */
-                    }
-
-                }
-            }
-            catch (ex: Exception) {
-                StaticLogger.E(this, "Unzip failed", ex)
-            } finally {
-                zis.close()
-            }
         }
     }
 }

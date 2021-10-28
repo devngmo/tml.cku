@@ -16,18 +16,6 @@ class JsonUtils {
             }
             return true
         }
-
-        fun ContainPropertiesAny(container: Map<String, Any>, properties :Map<String, Any>) : Boolean {
-            for (k in properties) {
-                if (container.containsKey(k.key) && container[k.key].toString() == k.value.toString()) {
-                    // pass
-                }
-                else {
-                    return false
-                }
-            }
-            return true
-        }
     }
 
 

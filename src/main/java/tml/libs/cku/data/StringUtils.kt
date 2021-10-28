@@ -163,5 +163,9 @@ class StringUtils {
         fun floatToString(value: Float, useDot: Boolean): String {
             return if (useDot) ("" + value).replace(",", ".") else "" + value
         }
+
+        fun replaceStartSpaces(replacement: String, text: String): String {
+            return text.replaceFirst(" \t", replacement)
+        }
     }
 }
