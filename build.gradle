@@ -1,11 +1,14 @@
-apply plugin: 'java-library'
-apply plugin: 'kotlin'
-
-dependencies {
-    implementation fileTree(dir: 'libs', include: ['*.jar'])
-implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation 'com.google.code.gson:gson:2.8.6'
+plugins {
+    id 'java-library'
+    id 'kotlin'
 }
 
-sourceCompatibility = "7"
-targetCompatibility = "7"
+java {
+    sourceCompatibility = JavaVersion.VERSION_1_7
+    targetCompatibility = JavaVersion.VERSION_1_7
+}
+
+
+dependencies {
+    implementation 'com.google.code.gson:gson:2.8.6'
+}

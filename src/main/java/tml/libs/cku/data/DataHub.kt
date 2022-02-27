@@ -17,7 +17,7 @@ class DataHub {
             staticVault.clear()
         }
 
-        fun getLater(resourceID: String, callback: DataHubResponseInterface) {
+        fun getAsync(resourceID: String, callback: DataHubResponseInterface) {
             if (staticVault.containsKey(resourceID)) {
                 val data =staticVault[resourceID]
                 if (data is PendingDataInterface)
